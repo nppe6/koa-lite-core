@@ -1,0 +1,12 @@
+﻿src
+test
+node_modules
+coverage
+*.log
+tsconfig.json
+jest.config.js
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.gitignore
+.npmignore
