@@ -1,3 +1,11 @@
+import type { Logger } from 'pino'
+
+declare module 'koa' {
+  interface ExtendableContext {
+    logger: Logger
+  }
+}
+
 /**
  * HttpException 类构造函数的参数接口
  */

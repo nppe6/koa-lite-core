@@ -1,7 +1,7 @@
 import { Context } from 'koa';
 import { HttpException } from '../exception/http-exception';
 import { CodeMessage } from '../types'
-import { logger } from '../extend';
+import { logger } from '../extend/logging';
 import { config } from '../config';
 
 const CodeMessage = config.getItem('codeMessage', {}) as CodeMessage
@@ -19,7 +19,8 @@ export const error = (err: Error, ctx: Context) => {
       request: `${ctx.method} ${ctx.req.url}`
     });
   } else {
-    logger.error(err);
+    const requestLogger = ctx.logger || ctx.log || logger
+    requestLogger.error(err);
     if (config.isDebug()) {
       ctx.body = JSON.stringify(err);
     } else {
@@ -31,4 +32,3 @@ export const error = (err: Error, ctx: Context) => {
     }
   }
 };
-
