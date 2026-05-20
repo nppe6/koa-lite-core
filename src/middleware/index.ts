@@ -1,2 +1,4 @@
-﻿export * from './error'
-export * from './not-found'
+import { error } from './error';
+import { log } from './log';
+
+export { error, log };

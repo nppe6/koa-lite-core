@@ -27,9 +27,9 @@ export class Config {
   private store: Object = {};
 
   /**
-   * 默认环境变量的前缀为LIN
+   * 默认环境变量的前缀为KOA
    */
-  private _prefix: string = 'lin';
+  private _prefix: string = 'KOA';
 
   private envSuffix: string = '_ENV';
 

@@ -1,5 +1,3 @@
-import {IRouterOptions } from 'koa-router'
-
 /**
  * HttpException 类构造函数的参数接口
  */
@@ -27,19 +25,6 @@ export interface MulOpts {
   include?: string[];
   exclude?: string[];
 }
-// lin-router 路由元信息
-export interface Meta {
-  permission?: string;
-  module?: string;
-  mount?: boolean;
-}
-
-// LinRouter 选项
-export interface LinRouterOptions extends IRouterOptions {
-  module?: string;
-  mountPermission?: boolean;
-}
-
 export interface CodeMessage {
   getMessage: (code: number) => string;
   [propName: number]: string;

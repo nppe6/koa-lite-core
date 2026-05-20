@@ -1,36 +1,34 @@
-﻿import type { Context, Next } from 'koa'
-import { HttpError } from '../exception'
+import { Context } from 'koa';
+import { HttpException } from '../exception/http-exception';
+import { CodeMessage } from '../types'
+import { logger } from '../extend';
+import { config } from '../config';
 
-export interface ErrorHandlerOptions {
-  debug?: boolean
-  unknownMessage?: string
-}
+const CodeMessage = config.getItem('codeMessage', {}) as CodeMessage
 
-export function errorHandler(options: ErrorHandlerOptions = {}) {
-  return async function handleError(ctx: Context, next: Next) {
-    try {
-      await next()
-    } catch (error) {
-      ctx.type = 'application/json'
-
-      if (error instanceof HttpError) {
-        ctx.status = error.status
-        ctx.body = {
-          code: error.code,
-          message: error.message,
-          request: `${ctx.method} ${ctx.url}`,
-        }
-        return
-      }
-
-      ctx.status = 500
-      ctx.body = {
+/**
+ * 全局异常处理中间件
+ */
+export const error = (err: Error, ctx: Context) => {
+  ctx.type = 'application/json';
+  if (err instanceof HttpException) {
+    ctx.status = err.status || 500;
+    ctx.body = JSON.stringify({
+      code: err.code,
+      message: err.message,
+      request: `${ctx.method} ${ctx.req.url}`
+    });
+  } else {
+    logger.error(err);
+    if (config.isDebug()) {
+      ctx.body = JSON.stringify(err);
+    } else {
+      ctx.body = JSON.stringify({
         code: 9999,
-        message: options.debug && error instanceof Error
-          ? error.message
-          : options.unknownMessage || 'Server Error',
-        request: `${ctx.method} ${ctx.url}`,
-      }
+        message: CodeMessage.getMessage(9999),
+        request: `${ctx.method} ${ctx.req.url}`
+      });
     }
   }
-}
+};
+
