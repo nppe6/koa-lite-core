@@ -1,8 +1,8 @@
-﻿import { HttpError, NotFound, Success } from '../src/exception'
+﻿import { Failed, NotFound, Success } from '../src/exception'
 
 describe('exceptions', () => {
   test('creates http error', () => {
-    const error = new HttpError('failed', 400, 10001)
+    const error = new Failed()
     expect(error.status).toBe(400)
     expect(error.code).toBe(10001)
     expect(error.message).toBe('failed')

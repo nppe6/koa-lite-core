@@ -5,4 +5,4 @@ export {
   getLogger,
   shutdownLogger
 } from './console'
-export { createFileAppender } from './file'
+export { createFileAppender, createFileAppenders } from './file'

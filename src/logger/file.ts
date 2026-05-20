@@ -19,11 +19,14 @@ export interface FileAppenderOptions {
  * appender 可以理解为“日志输出目的地”。
  * 这个 appender 负责把日志写入文件，并按日期自动切割。
  */
-export const createFileAppender = (options: FileAppenderOptions): Appender => ({
+export const createFileAppender = (
+  options: FileAppenderOptions,
+  subDir = ''
+): Appender => ({
   type: 'dateFile',
   // 基础文件名。最终文件名会由 filename + pattern 组成。
-  // 例如：logs/app.2026-05-20.log
-  filename: path.join(resolveLogBaseDir(options.dir), 'app'),
+  // 例如：logs/info/_.2026-05-20.log
+  filename: path.join(resolveLogBaseDir(options.dir), subDir, '_'),
   // 按天生成日志文件。
   pattern: 'yyyy-MM-dd.log',
   // 对齐旧项目的 sizeLimit：单个日志文件超过该大小时会继续滚动切割。
@@ -34,6 +37,25 @@ export const createFileAppender = (options: FileAppenderOptions): Appender => ({
   keepFileExt: true,
   // 使用和控制台一致的输出格式。
   layout: createLoggerLayout()
+})
+
+// 创建文件日志相关 appender。
+// fileInfoFilter 负责 INFO-WARN，fileErrorFilter 负责 ERROR-FATAL。
+export const createFileAppenders = (options: FileAppenderOptions): Record<string, Appender> => ({
+  fileInfo: createFileAppender(options, 'info'),
+  fileError: createFileAppender(options, 'error'),
+  fileInfoFilter: {
+    type: 'logLevelFilter',
+    appender: 'fileInfo',
+    level: 'INFO',
+    maxLevel: 'WARN'
+  },
+  fileErrorFilter: {
+    type: 'logLevelFilter',
+    appender: 'fileError',
+    level: 'ERROR',
+    maxLevel: 'FATAL'
+  }
 })
 
 function resolveLogBaseDir(dir: string) {

@@ -3,7 +3,7 @@ import { config } from '../config'
 import {
   configureLogger,
   createConsoleAppenders,
-  createFileAppender,
+  createFileAppenders,
   createLoggerMethods,
   getLogger
 } from '../logger'
@@ -24,14 +24,12 @@ const appenders = {
   // 控制台输出。无论是否开启文件日志，控制台日志都会启用。
   // stdoutConsole 负责 TRACE-WARN，stderrConsole 负责 ERROR-FATAL。
   ...createConsoleAppenders(),
+  // 文件输出。只有 options.file 为 true 时才创建，避免关闭文件日志时仍构造文件 appender。
   ...(options.file
-    ? {
-        // 文件输出。只有 options.file 为 true 时才创建，避免关闭文件日志时仍构造文件 appender。
-        file: createFileAppender({
+    ? createFileAppenders({
           dir: options.dir,
           sizeLimit: options.sizeLimit
         })
-      }
     : {})
 }
 
@@ -46,7 +44,7 @@ configureLogger({
       // file: true  -> 控制台 + 文件
       // file: false -> 仅控制台
       appenders: options.file
-        ? ['stdoutConsole', 'stderrConsole', 'file']
+        ? ['stdoutConsole', 'stderrConsole', 'fileInfoFilter', 'fileErrorFilter']
         : ['stdoutConsole', 'stderrConsole'],
 
       // 最低输出等级，例如 INFO 表示 DEBUG/TRACE 不会输出。
