@@ -1,7 +1,9 @@
 import type { Logger } from 'pino'
+import type { Config } from '../config/config'
 
 declare module 'koa' {
   interface ExtendableContext {
+    config: Config
     logger: Logger
   }
 }

@@ -6,7 +6,7 @@ import { get, set } from 'lodash';
  * json序列化扩展
  *
  * ```js
- * ctx.json({ message: "hello from lin!" })
+ * ctx.json({ message: "hello from kernel!" })
  * ```
  *
  * @param app app实例

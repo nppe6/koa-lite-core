@@ -10,7 +10,7 @@ if (CodeMessage && !isFunction(CodeMessage.getMessage)) {
 }
 
 /**
- * HttpException 是lin中所有其他异常的基类
+ * HttpException 是kernel中所有其他异常的基类
  *
  * ```js
  * // 实例化一个默认的HttpException

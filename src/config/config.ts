@@ -27,9 +27,9 @@ export class Config {
   private store: Object = {};
 
   /**
-   * 默认环境变量的前缀为KOA
+   * 默认环境变量的前缀为KERNEL
    */
-  private _prefix: string = 'KOA';
+  private _prefix: string = 'KERNEL';
 
   private envSuffix: string = '_ENV';
 

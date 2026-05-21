@@ -9,11 +9,11 @@ const CodeMessage = config.getItem('codeMessage', {}) as CodeMessage
  * 处理 success
  *
  * ```js
- * ctx.success({ message: "hello from lin!" })
+ * ctx.success({ message: "hello from kernel!" })
  * ```
  *
  * ```js
- * ctx.success({ message: "hello from lin!", code: 0 })
+ * ctx.success({ message: "hello from kernel!", code: 0 })
  * ```
  *
  * @param app app实例
